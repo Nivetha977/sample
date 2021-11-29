@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">sample_app</string>
+    <string name="register">Register</string>
+    <string name="phone">Phone Number</string>
+    <string name="verify">Verify Otp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="drawer_open">open</string>
+    <string name="drawer_close">close</string>
+    <string name="gps_is_disabled">Gps is Enabled</string>
+    <string name="enable_gps">Enable Gps</string>
+    <string name="ok">Ok</string>
+    <string name="enable">enable</string>
+    <string name="api_key">AIzaSyDYNq1H7JOxjgUC8kL6CLcgd0eA3x-1OH8</string>
+    <string name="dialogTitle">Info</string>
+    <string name="dialogMessage">Logout</string>
+</resources>
