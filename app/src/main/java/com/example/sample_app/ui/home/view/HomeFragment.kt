@@ -84,13 +84,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             App.mAppDatabase!!.getAddressDao().insert(address)
             Toast.makeText(requireContext(),"Saved Successfully!!!",Toast.LENGTH_LONG).show()
 
-            Log.e(
-                "Nive ",
-                "onCreateView:Home " + Gson().toJson(
-                    App.mAppDatabase!!.getAddressDao().getAddress()
-                )
-            )
-
         }
 
         return binding.root
@@ -231,13 +224,11 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful && task.result != null) {
                         mLastLocation = task.result
-                        Log.e("Nive ", "getLastLocation:check  ${mLastLocation}")
                         val latLng = LatLng(mLastLocation!!.latitude, mLastLocation!!.longitude)
                         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10.0f))
                         binding.centerFrameDrop.visibility = View.VISIBLE
                         getAddress(latLng)
                     } else {
-                        Log.e("TAG", "Failed to get location.")
                         mFusedLocationClient!!.requestLocationUpdates(
                             locationRequest,
                             setLocationRequestCallBack(), Looper.myLooper()
@@ -245,41 +236,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                     }
                 }
         } catch (unlikely: SecurityException) {
-            Log.e("TAG", "Lost location permission.$unlikely")
         }
     }
 
-
-    private fun BitmapFromVector(context: Context, vectorResId: Int): BitmapDescriptor? {
-        // below line is use to generate a drawable.
-        val vectorDrawable = ContextCompat.getDrawable(context, vectorResId)
-
-        // below line is use to set bounds to our vector drawable.
-        vectorDrawable!!.setBounds(
-            0,
-            0,
-            vectorDrawable.intrinsicWidth,
-            vectorDrawable.intrinsicHeight
-        )
-
-        // below line is use to create a bitmap for our
-        // drawable which we have added.
-        val bitmap = Bitmap.createBitmap(
-            vectorDrawable.intrinsicWidth,
-            vectorDrawable.intrinsicHeight,
-            Bitmap.Config.ARGB_8888
-        )
-
-        // below line is use to add bitmap in our canvas.
-        val canvas = Canvas(bitmap)
-
-        // below line is use to draw our
-        // vector drawable in canvas.
-        vectorDrawable.draw(canvas)
-
-        // after generating our bitmap we are returning our bitmap.
-        return BitmapDescriptorFactory.fromBitmap(bitmap)
-    }
 
 
     private fun getAddress(mLastLocation: LatLng) {
@@ -289,7 +248,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         try {
             val addressList =
                 geocoder.getFromLocation(mLastLocation.latitude, mLastLocation.longitude, 1)
-            Log.e("Nive ", "getAddress: ${addressList}")
             if (addressList != null && addressList.size > 0) {
                 val obj = addressList[0]
                 binding.textViewAddress.text = obj.getAddressLine(0)
@@ -302,30 +260,17 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
 
     private fun setLocationRequestCallBack(): LocationCallback? {
-        Log.e(
-            "TAG",
-            "onLocationResult:setLocationRequestCallBack  mLocationCallback before $mLocationCallback"
-        )
         if (mLocationCallback == null) {
-            Log.e(
-                "TAG",
-                "onLocationResult:setLocationRequestCallBack  mLocationCallback before null "
-            )
+
             mLocationCallback = object : LocationCallback() {
                 override fun onLocationResult(locationResult: LocationResult) {
-                    Log.e(
-                        "TAG",
-                        "onLocationResult:setLocationRequestCallBack $locationResult"
-                    )
+
                     if (locationResult != null) {
                         super.onLocationResult(locationResult)
                         if (mLastLocation == null) {
                             val mLastLocation = locationResult.lastLocation
-                            Log.e("Nive ", "onLocationResult:cehck ${mLastLocation}")
                         }
                         mFusedLocationClient!!.removeLocationUpdates(this)
-                    } else {
-                        Log.e("Giri ", "onLocationResult: null")
                     }
                 }
             }
@@ -377,7 +322,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                         "Enable Location Permissions to access the app"
                     )
                 } else {
-                    Log.e("Nive ", "onRequestPermissionsResult:granted ")
                     requestLocationUpdates()
                 }
                 i++

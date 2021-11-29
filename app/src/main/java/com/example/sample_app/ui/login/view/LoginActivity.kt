@@ -64,7 +64,6 @@ class LoginActivity : AppCompatActivity() {
 
         loginViewModel.isUserValid().observe(this, Observer {
             binding.buttonRegister.isEnabled = it
-            Log.e("Nive ", "onCreate: ${it}")
         })
 
         loginViewModel.isUserValidOtp().observe(this, Observer {
@@ -89,7 +88,6 @@ class LoginActivity : AppCompatActivity() {
 
 
     private fun sendVerificationCode(mobile: String) {
-        Log.e("Nive ", "sendVerificationCode: $mobile")
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
             "+91$mobile",
             60,

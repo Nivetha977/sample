@@ -32,7 +32,6 @@ class CurrentWeatherFragment(var lat: String?, var lng: String?) : Fragment() {
         weatherViewModel.weatherResponse.observe(this, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
-                    Log.e("Nive ", "onCreate:sucess response ${it.data?.main?.temp}")
                     binding.textViewTemp.text = String.format(
                         Locale.getDefault(), "%.0f°", it.data?.main?.temp
                     )
